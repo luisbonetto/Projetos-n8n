@@ -8,11 +8,18 @@ Este projeto consiste num fluxo de trabalho automatizado desenvolvido no **n8n**
 
 O fluxo de trabalho é composto por 5 etapas principais:
 
-1. **Trigger Manual (`When clicking 'Execute workflow'`):** Permite iniciar a execução do fluxo manualmente com um clique.
-2. **Google Sheets (`Get row(s) in sheet`):** Acede à folha de cálculo para recolher todos os registos e dados de vendas atualizados.
-3. **Processamento (`Summarize`):** Agrupa e resume os dados recolhidos para destacar as métricas comerciais mais relevantes.
-4. **Conversão de Ficheiro (`Convert to File`):** Transforma os dados resumidos num formato estruturado (`.xlsx` - Excel).
-5. **Envio por E-mail (`Send a message` / Gmail):** Envia automaticamente o relatório convertido como anexo para os destinatários definidos.
+## 🚀 Como Funciona o Fluxo (Workflow)
+
+O fluxo de trabalho atualizado é composto pelas seguintes etapas principais:
+
+1. **Trigger Manual** (`When clicking 'Execute workflow'`): Permite iniciar a execução do fluxo manualmente com um clique.
+2. **Google Sheets** (`Get row(s) in sheet`): Acede à folha de cálculo para recolher todos os registos e dados de vendas atualizados.
+3. **Validação de Dados** (`Code in JavaScript` & `If`): Analisa o conteúdo recolhido para verificar se a planilha está vazia ou se alguma coluna esperada foi alterada/removida
+   - **Caminho de Erro:** Se detetar dados inválidos ou ausentes, o fluxo desvia automaticamente para um nó de e-mail dedicado a disparar um **alerta de erro**
+   - **Caminho de Sucesso:** Se a estrutura estiver correta, o fluxo prossegue normalmente.
+4. **Processamento** (`Summarize`): Agrupa e resume os dados recolhidos para destacar as métricas comerciais mais relevantes
+5. **Conversão de Ficheiro** (`Convert to File`): Transforma os dados resumidos num formato estruturado (`.xlsx` - Excel)
+6. **Envio por E-mail** (`Send a message / Gmail`): Envia automaticamente o relatório convertido como anexo para os destinatários definidos (ou a notificação de falha em caso de anomalia na origem)
 
 ---
 
