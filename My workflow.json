@@ -1,0 +1,190 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Quero um fluxo que envie por email, relatórios de vendas"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1024,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "fe1e4380-a75c-474e-b1bb-cdcd7c640b5f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        -192
+      ],
+      "id": "3848f3e7-e9dd-4b7d-9f14-f29ff56dc8f7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1itLxBl0KN4qvgPJjdOlbkMGOWeCt7QikNYjjkFN2WDc",
+          "mode": "list",
+          "cachedResultName": "Base Vendas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1itLxBl0KN4qvgPJjdOlbkMGOWeCt7QikNYjjkFN2WDc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 998178217,
+          "mode": "list",
+          "cachedResultName": "Vendas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1itLxBl0KN4qvgPJjdOlbkMGOWeCt7QikNYjjkFN2WDc/edit#gid=998178217"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -816,
+        -192
+      ],
+      "id": "42578085-65c5-4dea-8448-0ef9b342c9d0",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XsjHqyWlRY9Kpeyk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "sum",
+              "field": "Valor Total"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "Produto",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        -192
+      ],
+      "id": "d06dea24-7000-4324-be48-fc6e787dff69",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "fileName": "Relatório de vendas"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        -192
+      ],
+      "id": "b5921fee-ce1b-4e7a-ac69-0f643be024a5",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "sendTo": "luisinhobonetto@gmail.com",
+        "subject": "n8n teste",
+        "message": "Relatório enviado via fluxo com n8n",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        -192
+      ],
+      "id": "c0c202ad-68ad-416c-bf4b-b8a6ec991eab",
+      "name": "Send a message",
+      "webhookId": "ab3315e5-d064-4c8b-a59d-3d39b4626382",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "c801xqJ7bwgjVmHd",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "4383895b-e323-4f26-b76c-519c237066c0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "adb3db00f1814df5f532d4cc63554f8903151b02b8cf5b267e8ddbbead0b3d7a"
+  },
+  "nodeGroups": [],
+  "id": "NgGUu0KXkN90EdEL",
+  "tags": []
+}
