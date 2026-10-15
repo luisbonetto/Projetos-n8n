@@ -1,0 +1,68 @@
+# 📊 Automated Price Tracker & Notifier (n8n Workflow)
+
+Um fluxo de automação desenvolvido no **n8n** para consulta, processamento e envio automático de cotações e dados financeiros/comerciais via **Telegram** e **Gmail**.
+
+---
+
+## 🎯 Objetivo do Projeto
+
+O objetivo deste projeto é automatizar a rotina de busca de cotações (moedas, ações, produtos, etc.). A partir de um comando enviado no Telegram ou de um disparo manual, o sistema:
+1. Recebe a solicitação.
+2. Faz requisições a serviços externos para obter as cotações atualizadas.
+3. Formata e consolida os dados coletados.
+4. Envia o relatório final estruturado diretamente para o **Telegram** e por **E-mail (Gmail)**.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **[n8n](https://n8n.io/):** Plataforma de automação de workflows (iPaaS).
+- **Telegram API:** Para recepção de gatilhos (Triggers) e envio de mensagens instantâneas.
+- **Gmail API:** Para envio de relatórios e resumos por e-mail.
+- **HTTP Request / Web Scraping:** Para buscar as cotações atualizadas em APIs ou sites parceiros.
+- **JavaScript / Data Manipulation:** Nós internos do n8n (`Edit Fields`, `Split Out`, `Loop Over Items`, `Aggregate`, `Code`) para tratamento e formatação de dados.
+
+---
+
+## 🔄 Estrutura do Fluxo (Workflow)
+
+O fluxo é composto pelas seguintes etapas principais:
+
+1. **Gatilhos (Triggers):**
+   - **Telegram Trigger:** Inicia o fluxo ao receber uma nova mensagem ou comando no chat.
+   - **Manual Executer:** Permite testar e executar o fluxo manualmente via interface do n8n.
+2. **Controle de Fluxo & Preparação:**
+   - **If:** Valida as condições iniciais da requisição.
+   - **Edit Fields & Split Out:** Prepara as variáveis de entrada e divide os itens solicitados para processamento em lote.
+3. **Coleta de Dados:**
+   - **Loop Over Items & Pegar Cotação:** Itera sobre cada item solicitado e faz a requisição web para buscar o valor atualizado.
+4. **Agregação e Formatação:**
+   - **Aggregate:** Agrupa todos os resultados obtidos no loop.
+   - **Formata Dados:** Trata o texto, aplicando formatação amigável para leitura.
+5. **Notificação / Entrega:**
+   - **Send a message (Gmail):** Envia o resumo formatado para o e-mail cadastrado.
+   - **Send a text message (Telegram):** Responde diretamente no chat do Telegram com o relatório.
+
+---
+
+## 🚀 Como Utilizar
+
+### Pré-requisitos
+- Instância do **n8n** rodando (Local via Docker/NPM ou Cloud).
+- Bot criado no Telegram via [BotFather](https://t.me/botfather) (para obter o Token de API).
+- Conta do Google com credenciais de API configuradas para o nó do Gmail.
+
+### Passo a Passo
+1. Faça o download ou copie o arquivo JSON do fluxo deste repositório.
+2. No seu painel do n8n, clique em **Workflows** > **Import from File** (ou colar do clipboard).
+3. Configure suas credenciais para:
+   - **Telegram Trigger** e **Telegram Bot**.
+   - **Gmail OAuth2 / App Password**.
+4. Ajuste a URL do nó **Pegar Cotação** para a API ou site de sua preferência.
+5. Ative o workflow no botão **Publish** / **Active**.
+
+---
+
+## 📝 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
